@@ -16,19 +16,26 @@ World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerC
 
 World.prototype.freeGroundPos = function(){
   var pos
+  // TODO better than that
   while(this.exists_cell(pos = {x:rand(this.X),y:rand(this.Y),z:0})) ;
   return pos;
 }
 
-World.prototype.each_cell = function(callback){
+World.prototype.each_creature = function(callback){
   for (var i in this.species){
     var species = this.species[i]
     for (var j in species.creatures){
-      for (var k in species.creatures[j].cells){
-        callback(species.creatures[j].cells[k])
-      }
+      callback(species.creatures[j])
     }
   }
+}
+
+World.prototype.each_cell = function(callback){
+  this.each_creature(function(creature){
+    for (var k in creature.cells){
+      callback(creature.cells[k])
+    }
+  })
 }
 
 World.prototype.exists_cell = function(coords){

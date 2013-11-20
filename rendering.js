@@ -1,44 +1,5 @@
-
-
-function createLine(x1,y1,z1,x2,y2,z2,color){
-  var geometry = new THREE.Geometry();
-  geometry.vertices.push(new THREE.Vector3(x1,y1,z1));
-  geometry.vertices.push(new THREE.Vector3(x2,y2,z2));
-  return new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: color }))
-}
-
-function addGrid(scene, size, color){
-  for (var i=0;i<size;i++){
-    scene.add(createLine(i,0,0,i,100,0,color));
-    scene.add(createLine(0,i,0,100,i,0,color));
-  }
-}
-
-function createCell(i,j,k,color){
-  var geometry = new THREE.CubeGeometry( 1, 1, 1 );
-  //var material = new THREE.MeshLambertMaterial( { color: color } );
-  var material = new THREE.LineBasicMaterial( { color: color } );
-  var mesh = new THREE.Mesh( geometry, material );
-  mesh.translateX(i)
-  mesh.translateY(j)
-  mesh.translateZ(k)
-  return mesh;
-}
-
-function createCamera(){
-  var camera = new THREE.PerspectiveCamera(
-    35,             // Field of view
-    800 / 600,      // Aspect ratio
-    0.1,            // Near plane
-    10000           // Far plane
-  );
-  camera.position.set( 90, -80, 60 );
-  camera.up.set( 0, 0, 1 );
-  camera.lookAt( new THREE.Vector3(25,50,0) );
-  return camera;
-}
-
 var CAMERA,RENDERER,SCENE
+
 function createScene(){
   RENDERER = new THREE.WebGLRenderer();
   RENDERER.setSize( 1200, 800 );
@@ -59,8 +20,52 @@ function createScene(){
   addGrid(SCENE, 100, 0xCCCCCC)
 }
 
+function createCamera(){
+  var camera = new THREE.PerspectiveCamera(
+    35,             // Field of view
+    800 / 600,      // Aspect ratio
+    0.1,            // Near plane
+    10000           // Far plane
+  );
+  camera.position.set( 100, -60, 60 );
+  camera.up.set( 0, 0, 1 );
+  camera.lookAt( new THREE.Vector3(25,50,-30) );
+  return camera;
+}
+
 function render(){
   RENDERER.render( SCENE, CAMERA )
+}
+
+function createLine(x1,y1,z1,x2,y2,z2,color){
+  var geometry = new THREE.Geometry();
+  geometry.vertices.push(new THREE.Vector3(x1,y1,z1));
+  geometry.vertices.push(new THREE.Vector3(x2,y2,z2));
+  return new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: color }))
+}
+
+function addGrid(scene, size, color){
+  for (var i=0;i<size;i++){
+    scene.add(createLine(i,0,0,i,100,0,color));
+    scene.add(createLine(0,i,0,100,i,0,color));
+  }
+}
+
+function createCube(i,j,k,color){
+  var geometry = new THREE.CubeGeometry( 1, 1, 1 );
+
+  // http://www.aerotwist.com/tutorials/getting-started-with-three-js/
+  geometry.dynamic = true;
+  geometry.verticesNeedUpdate = true;
+  //geometry.normalsNeedUpdate = true;
+  
+  //var material = new THREE.MeshLambertMaterial( { color: color } );
+  var material = new THREE.LineBasicMaterial( { color: color } );
+  var mesh = new THREE.Mesh( geometry, material );
+  mesh.translateX(i)
+  mesh.translateY(j)
+  mesh.translateZ(k)
+  return mesh;
 }
 
 function randomColor() {

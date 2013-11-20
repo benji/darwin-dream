@@ -3,6 +3,7 @@ function Species(nbCreatures, maxCells, color){
   this.dna = []
   this.maxCells = maxCells
   this.color = color
+  this.evolve()
   this.creatures = []
   for (var i=0;i<nbCreatures;i++){
     this.creatures.push( new Creature({species:this}) )
@@ -19,10 +20,10 @@ function DNA(){
   this.probas = []
   var sum = 0;
   for (var i=0;i<6;i++){
-    proba[i] = Math.random();
-    sum += proba[i];
+    this.probas[i] = Math.random();
+    sum += this.probas[i];
   }
   for (var i=0;i<6;i++){
-    proba[i] /= sum;
+    this.probas[i] /= sum;
   }
 }
