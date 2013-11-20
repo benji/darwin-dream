@@ -15,6 +15,7 @@ Creature.prototype.grow = function(){
 Creature.prototype.growNewCell = function(rootCell, growthProbas){
   var option = {creature:this, x:rootCell.x, y:rootCell.y, z:rootCell.z}
   var p = Math.random()
+
   if (p<growthProbas[0]) option.x+=1
   else if (p<growthProbas[1]) option.x-=1
   else if (p<growthProbas[2]) option.y+=1

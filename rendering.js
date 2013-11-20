@@ -10,7 +10,8 @@ function createScene(){
   
   var light = new THREE.PointLight( 0xFFFF00 );
   light.position.set( 90, -80, 100);
-  SCENE.add( light );
+  light.intensity=3
+  //SCENE.add( light );
 
   // axis
   SCENE.add(createLine(0, 0, 0, 1000, 0, 0, 0xff0000));
@@ -51,6 +52,17 @@ function addGrid(scene, size, color){
   }
 }
 
+// save memory
+var MaterialCache = {}
+function getCachedMaterial(color){
+  var key = color.getHexString();
+  if (!(key in MaterialCache)){
+    MaterialCache[key] = new THREE.LineBasicMaterial( { color: color } );
+    //MaterialCache[key] = new THREE.MeshLambertMaterial( { color: color } );
+  }
+  return MaterialCache[key]
+}
+
 function createCube(i,j,k,color){
   var geometry = new THREE.CubeGeometry( 1, 1, 1 );
 
@@ -58,10 +70,8 @@ function createCube(i,j,k,color){
   geometry.dynamic = true;
   geometry.verticesNeedUpdate = true;
   //geometry.normalsNeedUpdate = true;
-  
-  //var material = new THREE.MeshLambertMaterial( { color: color } );
-  var material = new THREE.LineBasicMaterial( { color: color } );
-  var mesh = new THREE.Mesh( geometry, material );
+
+  var mesh = new THREE.Mesh( geometry, getCachedMaterial(color) );
   mesh.translateX(i)
   mesh.translateY(j)
   mesh.translateZ(k)

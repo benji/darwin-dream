@@ -23,7 +23,10 @@ function DNA(){
     this.probas[i] = Math.random();
     sum += this.probas[i];
   }
+  var sumPrev = 0
   for (var i=0;i<6;i++){
-    this.probas[i] /= sum;
+    var proba1 = this.probas[i]/sum
+    this.probas[i] = proba1+sumPrev;
+    sumPrev += proba1
   }
 }
