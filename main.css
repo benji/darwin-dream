@@ -1,0 +1,18 @@
+body{
+  background:#eaeaea;
+}
+#container {
+  background:#fff;
+  margin:0 auto;
+  width: 1200px;
+  padding:10px;
+}
+#header {
+  margin-bottom:10px;
+}
+#threeScene {
+}
+button {
+  border : 1px solid #777;
+  padding: 4px 10px;
+}
