@@ -2,10 +2,10 @@
 var WORLD = new World({X:100,Y:100});
 
 window.onload = function() {
-  WORLD.infest(3,15,100)
+  WORLD.infest(10,15,100)
   
   var renderer = new THREE.WebGLRenderer();
-  renderer.setSize( 800, 600 );
+  renderer.setSize( 1200, 800 );
   document.body.appendChild( renderer.domElement );
   var camera = createCamera()
   var scene = createScene()
@@ -36,8 +36,10 @@ function addGrid(scene, size, color){
 }
 
 function createCell(i,j,k,color){
+console.log(color)
   var geometry = new THREE.CubeGeometry( 1, 1, 1 );
-  var material = new THREE.MeshLambertMaterial( { color: color } );
+  //var material = new THREE.MeshLambertMaterial( { color: color } );
+  var material = new THREE.LineBasicMaterial( { color: color } );
   var mesh = new THREE.Mesh( geometry, material );
   mesh.translateX(i)
   mesh.translateY(j)
@@ -62,7 +64,7 @@ function createScene(){
   var scene = new THREE.Scene();
   
   var light = new THREE.PointLight( 0xFFFF00 );
-  light.position.set( 10, 10, 10 );
+  light.position.set( 90, -80, 100);
   scene.add( light );
 
   // axis
@@ -70,15 +72,17 @@ function createScene(){
   scene.add(createLine(0, 0, 0, 0, 1000, 0, 0x00ff00));
   scene.add(createLine(0, 0, 0, 0, 0, 1000, 0x0000ff));
   
-  addGrid(scene, 100, 0x000000)
+  addGrid(scene, 100, 0xCCCCCC)
+  
   return scene
 }
 
 function randomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.round(Math.random() * 15)];
-    }
-    return color;
+  return getColorFromHue(Math.random())
+}
+
+function getColorFromHue(hue){
+    var c = new THREE.Color();
+    c.setHSL(hue,1,.45)
+    return c
 }

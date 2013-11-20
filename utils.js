@@ -4,3 +4,8 @@ function absorb(o, options, defaults){
     if (!(key in o)) o[key]=defaults[key]
   }
 }
+
+// random number in [0; maxInt[
+function rand(maxInt){
+  return Math.floor(Math.random() * maxInt)
+}

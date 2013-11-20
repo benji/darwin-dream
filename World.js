@@ -7,20 +7,17 @@ function World(options){
 }
 
 World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerCreature){
+  var hue = 0, colorDelta = 1./nbSpecies
   for (var i=0; i<nbSpecies; i++){
-    this.species.push( new Species(nbCreaturesPerSpecies, maxCellsPerCreature, randomColor()) )
+    this.species.push( new Species(nbCreaturesPerSpecies, maxCellsPerCreature, getColorFromHue(hue)) )
+    hue+=colorDelta
   }
 }
 
 World.prototype.freeGroundPos = function(){
   var pos
-  while(this.exists_cell(pos = {x:this.rand(this.X),y:this.rand(this.Y),z:0})) ;
+  while(this.exists_cell(pos = {x:rand(this.X),y:rand(this.Y),z:0})) ;
   return pos;
-}
-
-// random number in [0; maxInt[
-World.prototype.rand = function(maxInt){
-  return Math.floor(Math.random() * maxInt)
 }
 
 World.prototype.each_cell = function(callback){
