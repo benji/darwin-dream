@@ -25,5 +25,5 @@ RULES
    GROWTH of a new cell at each cycle until maxCells is reached
    10% chances? of REPRODUCTION in area nearby (+/- 10 tiles?)
    1% chance of EVOLUTION/MUTATION(s) -> NEW SPECIES with 1 more cell allowed, direction of growth is random
-3) NATURAL DEATH after 10 cycles (maxCells=10)
+3) NATURAL DEATH after 10 cycles (maxCells=10) 
 
