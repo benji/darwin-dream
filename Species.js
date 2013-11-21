@@ -18,15 +18,7 @@ Species.prototype.evolve = function(){
 // x+1, x-1, y+1, y-1, z+1, z-1
 function DNA(){
   this.probas = []
-  var sum = 0;
   for (var i=0;i<6;i++){
     this.probas[i] = Math.random();
-    sum += this.probas[i];
-  }
-  var sumPrev = 0
-  for (var i=0;i<6;i++){
-    var proba1 = this.probas[i]/sum
-    this.probas[i] = proba1+sumPrev;
-    sumPrev += proba1
   }
 }

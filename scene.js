@@ -2,8 +2,8 @@ var WORLD;
 
 window.onload = function() {
   createScene()
-  WORLD = new World({X:100,Y:100});
-  WORLD.infest(10,15,100)
+  WORLD = new World({X:20,Y:20});
+  WORLD.infest(3,5,10)
   render()
 }
 
