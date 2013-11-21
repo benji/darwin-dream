@@ -22,7 +22,9 @@ Species.prototype.evolve = function(){
 
 Species.prototype.mutate = function(){
   console.log("A species is evolving...")
-  return new Species({maxCells:this.maxCells,color:randomColor()})
+  var species = new Species({maxCells:this.maxCells,color:randomColor()})
+  WORLD.species.push(species)
+  return species
   //TODO evolve DNA
 }
 

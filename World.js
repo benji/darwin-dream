@@ -2,7 +2,9 @@ function World(options){
   absorb(this, options,{
     X:100,
     Y:100,
-    reproductionRadius: 10 // not really a radius
+    reproductionRadius: 10, // not really a radius
+    reproductionRate: 10./100,
+    mutationRatePerReproduction: 5./100
   })
   this.species = []
 }
@@ -17,6 +19,32 @@ World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerC
   }
 }
 
+
+
+World.prototype.lifecycle = function(){
+  // cleanup first
+  var creatures = this.collectCreatures()
+  for (var i in creatures){
+    var c = creatures[i]
+    if (c.cells.length >= c.species.maxCells) { c.die() }
+  }
+  
+  creatures = this.collectCreatures()
+  for (var i in creatures){
+    var c = creatures[i]
+    if (Math.random() < this.reproductionRate){
+      var mutation = Math.random() < this.mutationRatePerReproduction
+      var species = mutation? c.species.mutate(): c.species
+      species.reproduce(c)
+    }
+    c.grow()
+  }
+  
+  var remaining = WORLD.collectCreatures().length
+  console.log("Cycle "+cycle+" complete with "+remaining+" creatures.")
+  cycle++;
+  return remaining;
+}
 World.prototype.freeGroundPos = function(){
   var pos
   // TODO better than that

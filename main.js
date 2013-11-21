@@ -1,47 +1,39 @@
 var WORLD;
 var cycle = 0;
-var reproductionRate = 10./100;
-var mutationRatePerReproduction = 5/100;
+var PLAY_INTERVAL_MS = 100
+var console = {};
+console.log = function(){};
 
 window.onload = function() {
   createScene()
-  WORLD = new World({X:20,Y:20});
-  WORLD.infest(3,3,10)
+  WORLD = new World({
+    X:20,
+    Y:20,
+    reproductionRate: 40./100,
+    mutationRatePerReproduction: 5./100
+  });
+  WORLD.infest(4,7,5)
   render()
-  
 }
 
-function lifecycle(){
-  // cleanup first
-  var creatures = WORLD.collectCreatures()
-  for (var i in creatures){
-    var c = creatures[i]
-    if (c.cells.length >= c.species.maxCells) c.die()
-  }
+function next(){
+  var start1 = new Date()
+  var remaining = WORLD.lifecycle()
+  var elapsed1 = new Date() - start1
+  console.log("lifecycle took: "+elapsed1+" ms")
   
-  creatures = WORLD.collectCreatures()
-  for (var i in creatures){
-    var c = creatures[i]
-    if (Math.random() < reproductionRate){
-      var mutation = Math.random() < mutationRatePerReproduction
-      var species = mutation? c.species.mutate(): c.species
-      species.reproduce(c)
-    }
-    c.grow()
-  }
+  var start2 = new Date()
   render()
+  var elapsed2 = new Date() - start2
+  console.log("rendering took: "+elapsed2+" seconds")
   
-  var remaining = WORLD.collectCreatures().length
-  console.log("Cycle "+cycle+" complete with "+remaining+" creatures.")
   if (remaining==0) stop()
-  
-  cycle++;
 }
 
 var runInterval;
 function start(){
   console.log("Start")
-  runInterval = setInterval(lifecycle, 500);
+  runInterval = setInterval(next, PLAY_INTERVAL_MS);
 }
 function stop(){
   console.log("Stop")
