@@ -1,17 +1,27 @@
 // http://stackoverflow.com/questions/387707/whats-the-best-way-to-define-a-class-in-javascript
 function Creature(options){
+  console.log("Creating new creature")
   absorb(this, options)
-  this.nbCells = 1
   var cellOpts = WORLD.freeGroundPos()
-  cellOpts['creature'] = this
+  cellOpts.creature = this
   this.cells = [new Cell(cellOpts)]
+}
+
+Creature.prototype.die = function(){
+  console.log("Creature dies")
+  var index = this.species.creatures.indexOf(this);
+  if (index < 0) {
+    console.log("ERROR: Creature not found!")
+    return
+  }
+  this.species.creatures.splice(index, 1);
+  for (var i in this.cells) this.cells[i].die()
 }
 
 Creature.prototype.grow = function(){
   this.cells.push(this.growNewCell(this.cells[this.cells.length-1], this.species.dna[0].probas))
 }
 
-// TODO : first list the available spots first to avoid collisions
 Creature.prototype.growNewCell = function(c, growthProbas){
   var option = {creature:this, x:c.x, y:c.y, z:c.z}
 
@@ -21,7 +31,7 @@ Creature.prototype.growNewCell = function(c, growthProbas){
     !WORLD.exists_cell({x:c.x,y:c.y+1,z:c.z}),
     !WORLD.exists_cell({x:c.x,y:c.y-1,z:c.z}),
     !WORLD.exists_cell({x:c.x,y:c.y,z:c.z+1}),
-    !WORLD.exists_cell({x:c.x,y:c.y,z:c.z-1})
+    c.z > 0 && !WORLD.exists_cell({x:c.x,y:c.y,z:c.z-1})
   ]
 
   var sumProbasCanGrow = 0
@@ -35,7 +45,7 @@ Creature.prototype.growNewCell = function(c, growthProbas){
   else if (canGrow[2] && p<(sumPrevProbas+=growthProbas[2])) option.y+=1
   else if (canGrow[3] && p<(sumPrevProbas+=growthProbas[3])) option.y-=1
   else if (canGrow[4] && p<(sumPrevProbas+=growthProbas[4])) option.z+=1
-  else if (canGrow[5])                                       option.z+=1
+  else if (canGrow[5])                                       option.z-=1
   else {
     console.log("ERROR: CELL HAS NO ROOM TO GROW")
   }

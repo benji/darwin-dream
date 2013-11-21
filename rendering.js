@@ -67,8 +67,8 @@ function createCube(i,j,k,color){
   var geometry = new THREE.CubeGeometry( 1, 1, 1 );
 
   // http://www.aerotwist.com/tutorials/getting-started-with-three-js/
-  geometry.dynamic = true;
-  geometry.verticesNeedUpdate = true;
+  //geometry.dynamic = true;
+  //geometry.verticesNeedUpdate = true;
   //geometry.normalsNeedUpdate = true;
 
   var mesh = new THREE.Mesh( geometry, getCachedMaterial(color) );

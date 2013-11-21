@@ -1,17 +1,29 @@
-function Species(nbCreatures, maxCells, color){
+function Species(options){
   console.log("Creating new species")
+  absorb(this,options,{maxCells:1,color:'black'})
   this.dna = []
-  this.maxCells = maxCells
-  this.color = color
   this.evolve()
   this.creatures = []
-  for (var i=0;i<nbCreatures;i++){
+}
+
+Species.prototype.createCreatures = function(qty){
+  for (var i=0;i<qty;i++){
     this.creatures.push( new Creature({species:this}) )
   }
 }
 
+Species.prototype.reproduce = function(parent){
+  this.creatures.push( new Creature({species:this}) )
+}
+
 Species.prototype.evolve = function(){
   if (this.dna.length < this.maxCells) this.dna.push(new DNA())
+}
+
+Species.prototype.mutate = function(){
+  console.log("A species is evolving...")
+  return new Species({maxCells:this.maxCells,color:randomColor()})
+  //TODO evolve DNA
 }
 
 // probabilities for growing direction:

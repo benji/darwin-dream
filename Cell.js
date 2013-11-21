@@ -4,6 +4,6 @@ function Cell(options){
   SCENE.add(this.threeObject)
 }
 
-Cell.prototype.test = function(){
-  this.threeObject.translateX(1)
+Cell.prototype.die = function(){
+  SCENE.remove(this.threeObject)
 }
