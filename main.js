@@ -1,8 +1,8 @@
 var WORLD;
 var cycle = 0;
 var PLAY_INTERVAL_MS = 100
-var console = {};
-console.log = function(){};
+//var console = {};
+//console.log = function(){};
 
 window.onload = function() {
   createScene()

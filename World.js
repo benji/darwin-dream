@@ -45,18 +45,22 @@ World.prototype.lifecycle = function(){
   cycle++;
   return remaining;
 }
+
+//TODO make the world squared
 World.prototype.freeGroundPos = function(){
-  var pos
-  // TODO better than that
-  while(this.exists_cell(pos = {x:rand(this.X),y:rand(this.Y),z:0})) ;
-  return pos;
+  var excludes = []
+  this.each_cell(function(c){
+    if (c.z == 0) excludes.push(c)
+  })
+
+  var posXY = randomTileInSquare(this.X, excludes)
+  return {x:posXY.x, y:posXY.y, z:0}
+
 }
 
 // TODO
 World.prototype.freeGroundPosAround = function(i,j){
-  var pos
-  while(this.exists_cell(pos = {x:rand(this.X),y:rand(this.Y),z:0})) ;
-  return pos;
+  return this.freeGroundPos()
 }
 
 World.prototype.collectCreatures = function(){
