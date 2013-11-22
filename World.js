@@ -14,6 +14,7 @@ function World(options){
   }
 
   this.species = []
+  this.cycle=0
 }
 
 World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerCreature){
@@ -29,7 +30,7 @@ World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerC
 
 
 World.prototype.lifecycle = function(){
-  console.log("CYCLE "+cycle+" begins")
+  console.log("CYCLE "+this.cycle+" begins")
   
   // cleanup first
   var creatures = this.collectCreatures()
@@ -62,8 +63,8 @@ World.prototype.lifecycle = function(){
   CLOCKS.status('growth',"total growth")
   
   var remaining = WORLD.collectCreatures().length
-  console.log("Cycle "+cycle+" complete with "+remaining+" creatures.")
-  cycle++;
+  console.log("Cycle "+this.cycle+" complete with "+remaining+" creatures.")
+  this.cycle++;
   return remaining;
 }
 
