@@ -7,6 +7,9 @@ function World(options){
     mutationRatePerReproduction: 5./100
   })
   
+  this.cellSpaceRegistry = []
+  for (var i=0;i<this.X;i++) this.cellSpaceRegistry[i] = []
+
   this.species = []
 }
 
@@ -54,7 +57,7 @@ World.prototype.lifecycle = function(){
   CLOCKS.status('reproduction',"total reproduction")
   CLOCKS.status('mutation',"total mutation")
   CLOCKS.status('growth',"total growth")
-  CLOCKS.status("exists_cell","exists_cell")
+  //CLOCKS.status("exists_cell","exists_cell")
   //CLOCKS.status('randomTileInSquare','total randomTileInSquare')
   
   var remaining = WORLD.collectCreatures().length
@@ -104,20 +107,5 @@ World.prototype.each_cell = function(callback){
 }
 
 World.prototype.exists_cell = function(coords){
-  CLOCKS.start("exists_cell")
-  for (var i in this.species){
-    var species = this.species[i]
-    for (var j in species.creatures){
-      var creature = species.creatures[j]
-      for (var k in creature.cells){
-        var c = creature.cells[k]
-        if (c.x==coords.x && c.y==coords.y && c.z==coords.z) {
-          CLOCKS.pause("exists_cell")
-          return true
-        }
-      }
-    }
-  }
-  CLOCKS.pause("exists_cell")
-  return false
+  return this.cellSpaceRegistry[coords.x][coords.y] != null
 }

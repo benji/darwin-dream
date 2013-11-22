@@ -7,13 +7,13 @@ var CLOCKS = new Clocks()
 
 
 window.onload = function() {
-  createScene()
   WORLD = new World({
-    X:60,
-    Y:60,
+    X:10,
+    Y:10,
     reproductionRate: 40./100,
     mutationRatePerReproduction: 5./100
   });
+  createScene()
   WORLD.infest(4,4,10)
   render()
 }

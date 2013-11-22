@@ -26,12 +26,12 @@ Creature.prototype.growNewCell = function(c, growthProbas){
   var option = {creature:this, x:c.x, y:c.y, z:c.z}
 
   var canGrow = [
-    !WORLD.exists_cell({x:c.x+1,y:c.y,z:c.z}),
-    !WORLD.exists_cell({x:c.x-1,y:c.y,z:c.z}),
-    !WORLD.exists_cell({x:c.x,y:c.y+1,z:c.z}),
-    !WORLD.exists_cell({x:c.x,y:c.y-1,z:c.z}),
-    !WORLD.exists_cell({x:c.x,y:c.y,z:c.z+1}),
-    c.z > 0 && !WORLD.exists_cell({x:c.x,y:c.y,z:c.z-1})
+    c.x < WORLD.X-1 && !WORLD.exists_cell({x:c.x+1,y:c.y,z:c.z}),
+    c.x > 0         && !WORLD.exists_cell({x:c.x-1,y:c.y,z:c.z}),
+    c.y < WORLD.Y-1 && !WORLD.exists_cell({x:c.x,y:c.y+1,z:c.z}),
+    c.y > 0         && !WORLD.exists_cell({x:c.x,y:c.y-1,z:c.z}),
+                       !WORLD.exists_cell({x:c.x,y:c.y,z:c.z+1}),
+    c.z > 0         && !WORLD.exists_cell({x:c.x,y:c.y,z:c.z-1})
   ]
 
   var sumProbasCanGrow = 0

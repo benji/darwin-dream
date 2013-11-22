@@ -28,9 +28,9 @@ function createCamera(){
     0.1,            // Near plane
     10000           // Far plane
   );
-  camera.position.set( 100, -60, 60 );
+  camera.position.set( WORLD.X, -WORLD.Y*.8, WORLD.Y );
   camera.up.set( 0, 0, 1 );
-  camera.lookAt( new THREE.Vector3(25,50,-30) );
+  camera.lookAt( new THREE.Vector3(WORLD.X/2,WORLD.Y/2,-WORLD.Y/4) );
   return camera;
 }
 

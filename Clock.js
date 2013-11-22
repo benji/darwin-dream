@@ -10,7 +10,7 @@ Clocks.prototype.start = function(id){
 
 Clocks.prototype.reset = function(id){ if (this.timers[id]) this.timers[id].reset() }
 Clocks.prototype.pause = function(id){ this.timers[id].pause() }
-Clocks.prototype.status = function(id, msg){ this.timers[id].status(msg) }
+Clocks.prototype.status = function(id, msg){ if (this.timers[id]) this.timers[id].status(msg) }
 
 // ============ TIMER ============
 function Timer(){
