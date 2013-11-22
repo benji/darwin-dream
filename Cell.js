@@ -1,5 +1,6 @@
 function Cell(options){
   absorb(this, options)
+  // console.log("New cell at "+this.x+","+this.y+","+this.z)
   this.threeObject = createCube(this.x, this.y, this.z, this.creature.species.color)
   SCENE.add(this.threeObject)
   WORLD.cellSpaceRegistry[this.x][this.y].push(this.z)

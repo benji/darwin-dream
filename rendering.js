@@ -8,9 +8,9 @@ function createScene(){
   
   SCENE = new THREE.Scene();
   
-  var light = new THREE.PointLight( 0xFFFF00 );
-  light.position.set( 90, -80, 100);
-  light.intensity=3
+  //var light = new THREE.PointLight( 0xFFFF00 );
+  //light.position.set( 90, -80, 100);
+  //light.intensity=3
   //SCENE.add( light );
 
   // axis
@@ -28,7 +28,7 @@ function createCamera(){
     0.1,            // Near plane
     10000           // Far plane
   );
-  camera.position.set( WORLD.X, -WORLD.Y*.8, WORLD.Y );
+  camera.position.set( WORLD.X, -WORLD.Y*2, WORLD.Y*2 );
   camera.up.set( 0, 0, 1 );
   camera.lookAt( new THREE.Vector3(WORLD.X/2,WORLD.Y/2,-WORLD.Y/4) );
   return camera;
@@ -57,19 +57,24 @@ var MaterialCache = {}
 function getCachedMaterial(color){
   var key = color.getHexString();
   if (!(key in MaterialCache)){
-    MaterialCache[key] = new THREE.LineBasicMaterial( { color: color } );
-    //MaterialCache[key] = new THREE.MeshLambertMaterial( { color: color } );
+    // MaterialCache[key] = new THREE.MeshLambertMaterial( { color: color } );
+    // var mat = new THREE.LineBasicMaterial( { color: color } );
+    var mat = new THREE.MeshBasicMaterial( { color: color } );
+    // mat.needsUpdate = true
+    MaterialCache[key] = mat
   }
   return MaterialCache[key]
 }
 
 function createCube(i,j,k,color){
+  // console.log("creating cube at "+i+","+j+","+k+" - "+color)
   var geometry = new THREE.CubeGeometry( 1, 1, 1 );
 
   // http://www.aerotwist.com/tutorials/getting-started-with-three-js/
   //geometry.dynamic = true;
   //geometry.verticesNeedUpdate = true;
   //geometry.normalsNeedUpdate = true;
+  //geometry.uvsNeedUpdate = true;
 
   var mesh = new THREE.Mesh( geometry, getCachedMaterial(color) );
   mesh.translateX(i)

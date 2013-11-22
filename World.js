@@ -69,13 +69,12 @@ World.prototype.lifecycle = function(){
 
 //TODO make the world squared
 World.prototype.freeGroundPos = function(){
-return {x:rand(this.X),y:rand(this.Y),z:0}
   var excludes = WORLD.collectCreatures()
 
   var posXY = randomTileInSquare(this.X, excludes)
-  
+
   if (posXY==null) return null;
-  else return {x:posXY.x, y:posXY.y, z:0}
+  return {x:posXY.x, y:posXY.y, z:0}
 }
 
 // TODO
