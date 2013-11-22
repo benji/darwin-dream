@@ -8,7 +8,10 @@ function World(options){
   })
   
   this.cellSpaceRegistry = []
-  for (var i=0;i<this.X;i++) this.cellSpaceRegistry[i] = []
+  for (var i=0;i<this.X;i++) {
+    this.cellSpaceRegistry[i] = []
+    for (var j=0;j<this.Y;j++) this.cellSpaceRegistry[i][j]=[]
+  }
 
   this.species = []
 }
@@ -57,8 +60,6 @@ World.prototype.lifecycle = function(){
   CLOCKS.status('reproduction',"total reproduction")
   CLOCKS.status('mutation',"total mutation")
   CLOCKS.status('growth',"total growth")
-  //CLOCKS.status("exists_cell","exists_cell")
-  //CLOCKS.status('randomTileInSquare','total randomTileInSquare')
   
   var remaining = WORLD.collectCreatures().length
   console.log("Cycle "+cycle+" complete with "+remaining+" creatures.")
@@ -70,9 +71,8 @@ World.prototype.lifecycle = function(){
 World.prototype.freeGroundPos = function(){
 return {x:rand(this.X),y:rand(this.Y),z:0}
   var excludes = WORLD.collectCreatures()
-      CLOCKS.start('randomTileInSquare')
+
   var posXY = randomTileInSquare(this.X, excludes)
-      CLOCKS.pause('randomTileInSquare')
   
   if (posXY==null) return null;
   else return {x:posXY.x, y:posXY.y, z:0}
@@ -107,5 +107,5 @@ World.prototype.each_cell = function(callback){
 }
 
 World.prototype.exists_cell = function(coords){
-  return this.cellSpaceRegistry[coords.x][coords.y] != null
+  return this.cellSpaceRegistry[coords.x][coords.y].indexOf(coords.z) >= 0
 }
