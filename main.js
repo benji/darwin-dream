@@ -6,8 +6,8 @@ var RENDER_NB_CYCLES = 1
 
 
 //TODO debug/info/warning/error
-var console = {};
-console.log = function(){};
+//var console = {};
+//console.log = function(){};
 
 window.onload = function() {
   WORLD = new World({
@@ -22,6 +22,9 @@ window.onload = function() {
 }
 
 function next(){
+  CLOCKS.start("stats")
+  CLOCKS.reset('cycle')
+  CLOCKS.start("cycle")
   console.log("=============")
   var remaining = WORLD.lifecycle()
   
@@ -30,6 +33,11 @@ function next(){
     render()
     CLOCKS.status("render","rendering")
   }
+  CLOCKS.status("cycle",'complete cycle')
+
+  CLOCKS.pause("stats")
+  var avg = Math.floor( CLOCKS.elapsed("stats")/WORLD.cycle )
+  console.log(avg+"ms/cycle")
   
   if (remaining==0) stop()
 }

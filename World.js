@@ -39,6 +39,7 @@ World.prototype.lifecycle = function(){
     if (c.cells.length >= c.species.maxCells) { c.die() }
   }
   CLOCKS.reset('growth')
+  CLOCKS.reset('mutation')
   CLOCKS.reset('reproduction')
   var canReproduce = true
   creatures = shuffle(this.collectCreatures())
