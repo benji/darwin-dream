@@ -40,7 +40,7 @@ World.prototype.lifecycle = function(){
   CLOCKS.reset('growth')
   CLOCKS.reset('reproduction')
   var canReproduce = true
-  creatures = this.collectCreatures()
+  creatures = shuffle(this.collectCreatures())
   for (var i in creatures){
     var c = creatures[i]
     if (canReproduce && Math.random() < this.reproductionRate){

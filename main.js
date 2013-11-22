@@ -2,19 +2,19 @@ var WORLD;
 var cycle = 0;
 var PLAY_INTERVAL_MS = 100
 var CLOCKS = new Clocks()
-//var console = {};
-//console.log = function(){};
+var console = {};
+console.log = function(){};
 
 
 window.onload = function() {
   WORLD = new World({
-    X:10,
-    Y:10,
+    X:12,
+    Y:12,
     reproductionRate: 40./100,
     mutationRatePerReproduction: 5./100
   });
   createScene()
-  WORLD.infest(4,4,10)
+  WORLD.infest(2,4,10)
   render()
 }
 
