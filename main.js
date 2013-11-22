@@ -1,31 +1,30 @@
 var WORLD;
 var cycle = 0;
 var PLAY_INTERVAL_MS = 100
+var CLOCKS = new Clocks()
 //var console = {};
 //console.log = function(){};
+
 
 window.onload = function() {
   createScene()
   WORLD = new World({
-    X:20,
-    Y:20,
+    X:60,
+    Y:60,
     reproductionRate: 40./100,
     mutationRatePerReproduction: 5./100
   });
-  WORLD.infest(4,7,5)
+  WORLD.infest(4,4,10)
   render()
 }
 
 function next(){
-  var start1 = new Date()
+  console.log("=============")
   var remaining = WORLD.lifecycle()
-  var elapsed1 = new Date() - start1
-  console.log("lifecycle took: "+elapsed1+" ms")
   
-  var start2 = new Date()
+  CLOCKS.start("render")
   render()
-  var elapsed2 = new Date() - start2
-  console.log("rendering took: "+elapsed2+" seconds")
+  CLOCKS.status("render","rendering")
   
   if (remaining==0) stop()
 }

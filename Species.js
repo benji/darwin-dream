@@ -8,12 +8,32 @@ function Species(options){
 
 Species.prototype.createCreatures = function(qty){
   for (var i=0;i<qty;i++){
-    this.creatures.push( new Creature({species:this}) )
+    var pos = WORLD.freeGroundPos()
+    if (pos!=null){
+      this.createCreature(pos)
+    }else{
+      console.log("No space for a new creature, birth is aborted.")
+      break
+    }
   }
 }
 
+Species.prototype.createCreature = function(pos){
+  var creatureOpts = pos
+  creatureOpts.species = this
+  var creature = new Creature(creatureOpts)
+  this.creatures.push( creature )
+  return creature;
+}
+
 Species.prototype.reproduce = function(parent){
-  this.creatures.push( new Creature({species:this}) )
+  var pos = WORLD.freeGroundPos()
+  if (pos!=null){
+    return this.createCreature(pos)
+  }else{
+    console.log("No space for a new creature, reproduction is aborted.")
+    return null
+  }
 }
 
 Species.prototype.evolve = function(){

@@ -6,6 +6,7 @@ function World(options){
     reproductionRate: 10./100,
     mutationRatePerReproduction: 5./100
   })
+  
   this.species = []
 }
 
@@ -22,23 +23,39 @@ World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerC
 
 
 World.prototype.lifecycle = function(){
+  console.log("CYCLE "+cycle+" begins")
+  
   // cleanup first
   var creatures = this.collectCreatures()
   for (var i in creatures){
     var c = creatures[i]
     if (c.cells.length >= c.species.maxCells) { c.die() }
   }
-  
+  CLOCKS.reset('growth')
+  CLOCKS.reset('reproduction')
+  var canReproduce = true
   creatures = this.collectCreatures()
   for (var i in creatures){
     var c = creatures[i]
-    if (Math.random() < this.reproductionRate){
+    if (canReproduce && Math.random() < this.reproductionRate){
       var mutation = Math.random() < this.mutationRatePerReproduction
+      CLOCKS.start('mutation')
       var species = mutation? c.species.mutate(): c.species
-      species.reproduce(c)
+      CLOCKS.pause('mutation')
+      CLOCKS.start('reproduction')
+      var creature = species.reproduce(c)
+      CLOCKS.pause('reproduction')
+      canReproduce = (creature != null)
     }
+    CLOCKS.start('growth')
     c.grow()
+    CLOCKS.pause('growth')
   }
+  CLOCKS.status('reproduction',"total reproduction")
+  CLOCKS.status('mutation',"total mutation")
+  CLOCKS.status('growth',"total growth")
+  CLOCKS.status("exists_cell","exists_cell")
+  //CLOCKS.status('randomTileInSquare','total randomTileInSquare')
   
   var remaining = WORLD.collectCreatures().length
   console.log("Cycle "+cycle+" complete with "+remaining+" creatures.")
@@ -48,14 +65,14 @@ World.prototype.lifecycle = function(){
 
 //TODO make the world squared
 World.prototype.freeGroundPos = function(){
-  var excludes = []
-  this.each_cell(function(c){
-    if (c.z == 0) excludes.push(c)
-  })
-
+return {x:rand(this.X),y:rand(this.Y),z:0}
+  var excludes = WORLD.collectCreatures()
+      CLOCKS.start('randomTileInSquare')
   var posXY = randomTileInSquare(this.X, excludes)
-  return {x:posXY.x, y:posXY.y, z:0}
-
+      CLOCKS.pause('randomTileInSquare')
+  
+  if (posXY==null) return null;
+  else return {x:posXY.x, y:posXY.y, z:0}
 }
 
 // TODO
@@ -87,8 +104,20 @@ World.prototype.each_cell = function(callback){
 }
 
 World.prototype.exists_cell = function(coords){
-  this.each_cell(function(c){
-    if (c.x==coords.x && c.y==coords.y && c.z==coords.z) return true 
-  })
+  CLOCKS.start("exists_cell")
+  for (var i in this.species){
+    var species = this.species[i]
+    for (var j in species.creatures){
+      var creature = species.creatures[j]
+      for (var k in creature.cells){
+        var c = creature.cells[k]
+        if (c.x==coords.x && c.y==coords.y && c.z==coords.z) {
+          CLOCKS.pause("exists_cell")
+          return true
+        }
+      }
+    }
+  }
+  CLOCKS.pause("exists_cell")
   return false
 }

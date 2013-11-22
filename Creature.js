@@ -1,8 +1,8 @@
 // http://stackoverflow.com/questions/387707/whats-the-best-way-to-define-a-class-in-javascript
 function Creature(options){
-  console.log("Creating new creature")
   absorb(this, options)
-  var cellOpts = WORLD.freeGroundPos()
+  var cellOpts = {x:this.x,y:this.y,z:this.z}
+  // console.log("Creating new creature: x="+cellOpts.x+" y="+cellOpts.y+" z="+cellOpts.z)
   cellOpts.creature = this
   this.cells = [new Cell(cellOpts)]
 }
@@ -14,8 +14,8 @@ Creature.prototype.die = function(){
     console.log("ERROR: Creature not found!")
     return
   }
-  this.species.creatures.splice(index, 1);
   for (var i in this.cells) this.cells[i].die()
+  this.species.creatures.splice(index, 1);
 }
 
 Creature.prototype.grow = function(){

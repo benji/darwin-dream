@@ -12,7 +12,11 @@ function rand(maxInt){
 
 function randomTileInSquare(sqrLenTiles, excludes){
   if (typeof excludes == 'undefined') excludes=[]
+  
   var possibilities = Math.pow(sqrLenTiles,2) - excludes.length
+  if (possibilities == 0) return null;
+  if (possibilities < 0) throw "More cells than tiles!"
+  
   var randIdx = rand(possibilities)
 
   var excludesIdx = []
@@ -25,7 +29,11 @@ function randomTileInSquare(sqrLenTiles, excludes){
     if (randIdx >= excludesIdx[i]) randIdx++;
   }
   
-  return indexToPos(randIdx,sqrLenTiles)
+  var pos = indexToPos(randIdx,sqrLenTiles)
+  if (pos.x < 0){
+    console.log("houston")
+  }
+  return pos
 }
 
 function posToIndex(x,y,sqrLenTiles){
