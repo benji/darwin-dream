@@ -5,7 +5,7 @@ function absorb(o, options, defaults){
   }
 }
 
-// random number in [0; maxInt[
+// random integer in [0; maxInt[
 function rand(maxInt){
   return Math.floor(Math.random() * maxInt)
 }

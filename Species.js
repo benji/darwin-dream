@@ -36,9 +36,10 @@ Species.prototype.evolve = function(){
 Species.prototype.mutate = function(){
   console.log("A species is evolving...")
   var species = new Species({maxCells:this.maxCells,color:randomColor()})
+  species.dna = this.dna.slice(0)
+  species.dna[rand(6)] = new DNA() // the mutation
   WORLD.species.push(species)
   return species
-  //TODO evolve DNA
 }
 
 // probabilities for growing direction:
