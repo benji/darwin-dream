@@ -1,9 +1,5 @@
-var WORLD;
-var cycle = 0;
-var PLAY_INTERVAL_MS = 100
-var CLOCKS = new Clocks()
-var RENDER_NB_CYCLES = 1
-
+var WORLD, CLOCKS = new Clocks()
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
 
 //TODO debug/info/warning/error
 //var console = {};

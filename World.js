@@ -34,37 +34,41 @@ World.prototype.lifecycle = function(){
   
   // cleanup first
   var creatures = this.collectCreatures()
+  var nbDeadCreatures = 0
   for (var i in creatures){
     var c = creatures[i]
-    if (c.cells.length >= c.species.maxCells) { c.die() }
+    if (this.cycle - c.creationCycle >= c.species.maxCells) {
+      c.die()
+      nbDeadCreatures++;
+    }
   }
+  console.log(nbDeadCreatures+" creatures died")
   CLOCKS.reset('growth')
-  CLOCKS.reset('mutation')
   CLOCKS.reset('reproduction')
-  var canReproduce = true
+  var canReproduce = true, nbNewCreatures = 0
   creatures = shuffle(this.collectCreatures())
   for (var i in creatures){
     var c = creatures[i]
     if (canReproduce && Math.random() < this.reproductionRate){
       var mutation = Math.random() < this.mutationRatePerReproduction
-      CLOCKS.start('mutation')
       var species = mutation? c.species.mutate(): c.species
-      CLOCKS.pause('mutation')
+      
       CLOCKS.start('reproduction')
       var creature = species.reproduce(c)
       CLOCKS.pause('reproduction')
-      canReproduce = (creature != null)
+      
+      if (creature != null) nbNewCreatures++;
+      else canReproduce = false
     }
     CLOCKS.start('growth')
     c.grow()
     CLOCKS.pause('growth')
   }
   CLOCKS.status('reproduction',"total reproduction")
-  CLOCKS.status('mutation',"total mutation")
   CLOCKS.status('growth',"total growth")
   
   var remaining = WORLD.collectCreatures().length
-  console.log("Cycle "+this.cycle+" complete with "+remaining+" creatures.")
+  console.log("Cycle "+this.cycle+" complete with "+remaining+" creatures ("+nbNewCreatures+" new)")
   this.cycle++;
   return remaining;
 }

@@ -1,6 +1,7 @@
 // http://stackoverflow.com/questions/387707/whats-the-best-way-to-define-a-class-in-javascript
 function Creature(options){
   absorb(this, options)
+  this.creationCycle = WORLD.cycle
   var cellOpts = {x:this.x,y:this.y,z:this.z}
   // console.log("Creating new creature: x="+cellOpts.x+" y="+cellOpts.y+" z="+cellOpts.z)
   cellOpts.creature = this
@@ -8,7 +9,6 @@ function Creature(options){
 }
 
 Creature.prototype.die = function(){
-  console.log("Creature dies")
   var index = this.species.creatures.indexOf(this);
   if (index < 0) {
     console.log("ERROR: Creature not found!")
@@ -19,7 +19,8 @@ Creature.prototype.die = function(){
 }
 
 Creature.prototype.grow = function(){
-  this.cells.push(this.growNewCell(this.cells[this.cells.length-1], this.species.dna[0].probas))
+  var cell = this.growNewCell(this.cells[this.cells.length-1], this.species.dna[0].probas)
+  if (cell!=null) this.cells.push(cell)
 }
 
 Creature.prototype.growNewCell = function(c, growthProbas){
@@ -47,7 +48,8 @@ Creature.prototype.growNewCell = function(c, growthProbas){
   else if (canGrow[4] && p<(sumPrevProbas+=growthProbas[4])) option.z+=1
   else if (canGrow[5])                                       option.z-=1
   else {
-    console.log("ERROR: CELL HAS NO ROOM TO GROW")
+    //console.log("ERROR: CELL HAS NO ROOM TO GROW")
+    return null
   }
 
   return new Cell(option)
