@@ -69,6 +69,7 @@ World.prototype.lifecycle = function(){
   
   var remaining = WORLD.collectCreatures().length
   console.log("Cycle "+this.cycle+" complete with "+remaining+" creatures ("+nbNewCreatures+" new)")
+  console.log("Remaining spots: "+this.countFreeGroundPos())
   this.cycle++;
   return remaining;
 }
@@ -113,4 +114,14 @@ World.prototype.each_cell = function(callback){
 
 World.prototype.exists_cell = function(coords){
   return this.cellSpaceRegistry[coords.x][coords.y].indexOf(coords.z) >= 0
+}
+
+World.prototype.countFreeGroundPos = function(){
+  var count=this.X*this.Y
+  for (var i=0;i<this.X;i++){
+    for (var j=0;j<this.Y;j++){
+      if (this.exists_cell({x:i, y:j, z:0})) count--
+    }
+  }
+  return count
 }

@@ -1,5 +1,7 @@
 window.onload = function() {
-  testUtils()
+  testPosConversion()
+  testRandomTileInSquare()
+  testShuffleArray()
 }
 
 function assertTrue(b){
@@ -21,7 +23,7 @@ function testPosIdxConversion(pos, idx, len){
   assertEquals(pos, indexToPos(idx,4), posEquals)
 }
 
-function testUtils(){
+function testPosConversion(){
   testPosIdxConversion({x:0,y:0}, 0, 4)
   testPosIdxConversion({x:1,y:0}, 1, 4)
   testPosIdxConversion({x:0,y:1}, 4, 4)
@@ -32,3 +34,19 @@ function testUtils(){
   assertTrue(pos.x>=0 && pos.x<4 && pos.y>=0 && pos.y<4)
 }
 
+function testRandomTileInSquare(){
+  var len = 10
+  for (var i=0;i<100;i++){
+    var pos = randomTileInSquare(len, [])
+    assertTrue(pos.x>=0 && pos.x<len && pos.y>=0 && pos.y<len)
+  }
+}
+
+function testShuffleArray(){
+  var arr = [1,2,3,4,5]
+  for (var i=0;i<100;i++){
+    var sarr = shuffle(arr)
+    assertEquals(arr.length, sarr.length)
+    for (var j in arr) assertTrue(sarr.indexOf(arr[j]) > -1)
+  }
+}
