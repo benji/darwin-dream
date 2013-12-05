@@ -40,8 +40,18 @@ World.prototype.lifecycle = function(){
     if (this.cycle - c.creationCycle >= c.species.maxCells) {
       c.die()
       nbDeadCreatures++;
+      if (c.species.creatures.length == 0) {
+        var index = this.species.indexOf(c.species);
+        if (index < 0) {
+          console.log("ERROR: Species not found!")
+        }else{
+          console.log("A species goes extinct")
+          this.species.splice(c.species, 1)
+        }
+      }
     }
   }
+
   console.log(nbDeadCreatures+" creatures died")
   CLOCKS.reset('growth')
   CLOCKS.reset('reproduction')
@@ -50,7 +60,7 @@ World.prototype.lifecycle = function(){
   for (var i in creatures){
     var c = creatures[i]
     if (canReproduce && Math.random() < this.reproductionRate){
-      var mutation = Math.random() < this.mutationRatePerReproduction
+      var mutation = false;//Math.random() < this.mutationRatePerReproduction
       var species = mutation? c.species.mutate(): c.species
       
       CLOCKS.start('reproduction')
@@ -80,7 +90,9 @@ World.prototype.freeGroundPos = function(){
 
   var posXY = randomTileInSquare(this.X, excludes)
 
-  if (posXY==null) return null;
+  if (posXY==null) {
+    return null;
+  }
   return {x:posXY.x, y:posXY.y, z:0}
 }
 
@@ -91,25 +103,13 @@ World.prototype.freeGroundPosAround = function(i,j){
 
 World.prototype.collectCreatures = function(){
   var creatures = []
-  this.each_creature(function(c){ creatures.push(c) })
-  return creatures
-}
-
-World.prototype.each_creature = function(callback){
   for (var i in this.species){
     var species = this.species[i]
     for (var j in species.creatures){
-      callback(species.creatures[j])
+      creatures.push(species.creatures[j])
     }
   }
-}
-
-World.prototype.each_cell = function(callback){
-  this.each_creature(function(creature){
-    for (var k in creature.cells){
-      callback(creature.cells[k])
-    }
-  })
+  return creatures
 }
 
 World.prototype.exists_cell = function(coords){
@@ -124,4 +124,47 @@ World.prototype.countFreeGroundPos = function(){
     }
   }
   return count
+}
+
+World.prototype.findCreatureAtPos = function(pos){
+  for (var i in this.species){
+    var species = this.species[i]
+    for (var j in species.creatures){
+      var creature = species.creatures[j]
+      for (var k in creature.cells){
+        var cell = creature.cells[k]
+        if (cell.x == pos.x && cell.y == pos.y && cell.z == pos.z) return cell.creature
+      }      
+    }
+  }
+}
+
+World.prototype.detectFlyingCreatures = function(){
+  for (var i in this.species){
+    var species = this.species[i]
+    for (var j in species.creatures){
+      var creature = species.creatures[j]
+      if (creature.z>0) return creature
+    }
+  }
+}
+
+World.prototype.detectDuplicateCells = function(){
+  var registry = []
+ 
+  for (var i in this.species){
+    var species = this.species[i]
+    if (typeof registry[i] == "undefined") registry[i]=[]
+    for (var j in species.creatures){
+      var creature = species.creatures[j]
+      if (typeof registry[i][j] == "undefined") registry[i][j] = []
+      for (var k in creature.cells){
+        if (registry[i][j].indexOf(k) > -1){
+          console.log("Duplicate found at "+i+","+j+","+k)
+        }
+        registry[i][j].push(k)
+      }
+    }
+  }
+  return registry
 }

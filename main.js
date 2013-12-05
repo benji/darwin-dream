@@ -13,7 +13,7 @@ window.onload = function() {
     mutationRatePerReproduction: 3./100
   });
   createScene()
-  WORLD.infest(4,6,20)
+  WORLD.infest(3,5,10)
   render()
 }
 

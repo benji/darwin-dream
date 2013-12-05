@@ -14,7 +14,9 @@ function randomTileInSquare(sqrLenTiles, excludes){
   if (typeof excludes == 'undefined') excludes=[]
   
   var possibilities = Math.pow(sqrLenTiles,2) - excludes.length
-  if (possibilities == 0) return null;
+  if (possibilities == 0) {
+    return null;
+  }
   if (possibilities < 0) throw "More cells than tiles!"
   
   var randIdx = rand(possibilities)
