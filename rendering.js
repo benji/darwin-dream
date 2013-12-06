@@ -67,7 +67,7 @@ function getCachedMaterial(color){
 }
 
 function createCube(i,j,k,color){
-  // console.log("creating cube at "+i+","+j+","+k+" - "+color)
+  LOGGER.debug("creating cube at "+i+","+j+","+k+" - "+color)
   var geometry = new THREE.CubeGeometry( 1, 1, 1 );
 
   // http://www.aerotwist.com/tutorials/getting-started-with-three-js/

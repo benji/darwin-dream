@@ -37,5 +37,5 @@ Timer.prototype.status = function(msg){
   var now = new Date()
   var elapsed = this.elapsed
   if (this.lastTime!=null) elapsed += (now-this.lastTime)
-  console.log("CLOCK: "+elapsed+"ms : "+msg)
+  LOGGER.info("CLOCK: "+elapsed+"ms : "+msg)
 }

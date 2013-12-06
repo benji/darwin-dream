@@ -3,6 +3,11 @@ darwin-dream
 
 An attempt to create digital species derived from simple natural selection rules. JS/Three.js/WebGL
 
+USAGE:
+  Checkout the project and open index.html with your favorite browser!
+
+
+METHOD:
 
 decrease of the population:
 - aging and death

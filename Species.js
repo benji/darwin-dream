@@ -1,5 +1,5 @@
 function Species(options){
-  console.log("Creating new species")
+  LOGGER.info("Creating new species")
   absorb(this,options,{maxCells:1,color:'black'})
   this.dna = []
   this.evolve()
@@ -24,7 +24,7 @@ Species.prototype.reproduce = function(parent){
   if (pos != null){
     return this.createCreature(pos)
   }else{
-    console.log("No space for a new creature, reproduction is aborted.")
+    LOGGER.warn("No space for a new creature, reproduction is aborted.")
     return null
   }
 }
@@ -45,7 +45,7 @@ Species.prototype.remove = function(creature){
 }
 
 Species.prototype.mutate = function(){
-  console.log("A species is evolving...")
+  LOGGER.warn("A species is evolving...")
   var species = new Species({maxCells:this.maxCells,color:randomColor()})
   species.dna = this.dna.slice(0)
   species.dna[rand(6)] = new DNA() // the mutation

@@ -26,7 +26,7 @@ World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerC
 
 
 World.prototype.lifecycle = function(){
-  console.log("CYCLE "+this.cycle+" begins")
+  LOGGER.info("CYCLE "+this.cycle+" begins")
   
   // cleanup first
   var creatures = this.collectCreatures()
@@ -39,7 +39,7 @@ World.prototype.lifecycle = function(){
     }
   }
 
-  console.log(nbDeadCreatures+" creatures died")
+  LOGGER.info(nbDeadCreatures+" creatures died")
   CLOCKS.reset('growth')
   CLOCKS.reset('reproduction')
   var canReproduce = true, nbNewCreatures = 0
@@ -67,8 +67,8 @@ World.prototype.lifecycle = function(){
   CLOCKS.status('growth',"total growth")
   
   var remaining = WORLD.collectCreatures().length
-  console.log("Cycle "+this.cycle+" complete with "+remaining+" creatures ("+nbNewCreatures+" new)")
-  console.log("Remaining spots: "+this.countFreeGroundPos())
+  LOGGER.info("Cycle "+this.cycle+" complete with "+remaining+" creatures ("+nbNewCreatures+" new)")
+  LOGGER.info("Remaining spots: "+this.countFreeGroundPos())
   this.cycle++;
   return remaining;
 }
@@ -100,7 +100,7 @@ World.prototype.collectCreatures = function(){
 }
 
 World.prototype.removeSpecies = function(species){
-  console.log("A species goes extinct!")
+  LOGGER.warn("A species goes extinct!")
   var index = this.species.indexOf(species);
   if (index < 0) {
     throw "ERROR: Species not found!"

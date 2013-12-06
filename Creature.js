@@ -3,7 +3,7 @@ function Creature(options){
   absorb(this, options)
   this.creationCycle = WORLD.cycle
   var cellOpts = {x:this.x,y:this.y,z:this.z}
-  // console.log("Creating new creature: x="+cellOpts.x+" y="+cellOpts.y+" z="+cellOpts.z)
+  LOGGER.debug("Creating new creature: x="+cellOpts.x+" y="+cellOpts.y+" z="+cellOpts.z)
   cellOpts.creature = this
   this.cells = [new Cell(cellOpts)]
 }
@@ -43,7 +43,7 @@ Creature.prototype.growNewCell = function(c, growthProbas){
   else if (canGrow[4] && p<(sumPrevProbas+=growthProbas[4])) option.z+=1
   else if (canGrow[5])                                       option.z-=1
   else {
-    //console.log("ERROR: CELL HAS NO ROOM TO GROW")
+    LOGGER.info("ERROR: CELL HAS NO ROOM TO GROW")
     return null
   }
 

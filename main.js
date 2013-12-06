@@ -1,9 +1,11 @@
 var WORLD, CLOCKS = new Clocks()
 var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
 
-//TODO debug/info/warning/error
-//var console = {};
-//console.log = function(){};
+var LOGGER = log4javascript.getLogger();
+var consoleAppender = new log4javascript.BrowserConsoleAppender();
+consoleAppender.setLayout( new log4javascript.PatternLayout("%-5p - %m") ); // %d{HH:mm:ss} 
+consoleAppender.setThreshold(log4javascript.Level.ERROR);
+LOGGER.addAppender(consoleAppender)
 
 window.onload = function() {
   WORLD = new World({
@@ -21,7 +23,7 @@ function next(){
   CLOCKS.start("stats")
   CLOCKS.reset('cycle')
   CLOCKS.start("cycle")
-  console.log("=============")
+  LOGGER.info("=============")
   var remaining = WORLD.lifecycle()
   
   if (WORLD.cycle % RENDER_NB_CYCLES == 0 || remaining==0){
@@ -33,17 +35,17 @@ function next(){
 
   CLOCKS.pause("stats")
   var avg = Math.floor( CLOCKS.elapsed("stats")/WORLD.cycle )
-  console.log(avg+"ms/cycle")
+  LOGGER.info(avg+"ms/cycle")
   
   if (remaining==0) stop()
 }
 
 var runInterval;
 function start(){
-  console.log("Start")
+  LOGGER.info("Start")
   runInterval = setInterval(next, PLAY_INTERVAL_MS);
 }
 function stop(){
-  console.log("Stop")
+  LOGGER.info("Stop")
   clearInterval(runInterval)
 }
