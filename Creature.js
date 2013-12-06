@@ -9,13 +9,8 @@ function Creature(options){
 }
 
 Creature.prototype.die = function(){
-  var index = this.species.creatures.indexOf(this);
-  if (index < 0) {
-    console.log("ERROR: Creature not found!")
-    return
-  }
+  this.species.remove(this)
   for (var i in this.cells) this.cells[i].die()
-  this.species.creatures.splice(index, 1);
 }
 
 Creature.prototype.grow = function(){

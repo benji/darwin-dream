@@ -10,10 +10,11 @@ function rand(maxInt){
   return Math.floor(Math.random() * maxInt)
 }
 
-function randomTileInSquare(sqrLenTiles, excludes){
-  if (typeof excludes == 'undefined') excludes=[]
+function randomTileInSquare(sqrLenTiles, excludedIdx){
+  if (typeof excludedIdx == 'undefined') excludedIdx = []
+  excludedIdx.sort(function(a,b){return a - b})
   
-  var possibilities = Math.pow(sqrLenTiles,2) - excludes.length
+  var possibilities = Math.pow(sqrLenTiles,2) - excludedIdx.length
   if (possibilities == 0) {
     return null;
   }
@@ -21,19 +22,16 @@ function randomTileInSquare(sqrLenTiles, excludes){
   
   var randIdx = rand(possibilities)
 
-  var excludesIdx = []
-  for (var i in excludes) {
-    excludesIdx.push(posToIndex(excludes[i].x, excludes[i].y, sqrLenTiles))
-  }
-  excludesIdx.sort()
-
-  for (var i in excludesIdx) {
-    if (randIdx >= excludesIdx[i]) randIdx++;
+  // TODO: use while here
+  for (var i in excludedIdx) {
+    if (randIdx >= excludedIdx[i]) {
+      randIdx++;
+    }
   }
   
-  var pos = indexToPos(randIdx,sqrLenTiles)
+  var pos = indexToPos(randIdx, sqrLenTiles)
   if (pos.x < 0){
-    console.log("houston")
+    throw "Invalid position"
   }
   return pos
 }

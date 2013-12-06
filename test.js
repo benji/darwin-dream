@@ -1,4 +1,5 @@
 window.onload = function() {
+  //testCreateWorld()
   testPosConversion()
   testRandomTileInSquare()
   testShuffleArray()
@@ -36,9 +37,16 @@ function testPosConversion(){
 
 function testRandomTileInSquare(){
   var len = 10
+  var excludedIdx = []
   for (var i=0;i<100;i++){
-    var pos = randomTileInSquare(len, [])
+    var pos = randomTileInSquare(len, excludedIdx)
+
+    assertTrue(pos!=null)
     assertTrue(pos.x>=0 && pos.x<len && pos.y>=0 && pos.y<len)
+    var idx=posToIndex(pos.x,pos.y,len)
+
+    assertTrue(excludedIdx.indexOf(idx) == -1)
+    excludedIdx.push(idx)
   }
 }
 
@@ -50,3 +58,26 @@ function testShuffleArray(){
     for (var j in arr) assertTrue(sarr.indexOf(arr[j]) > -1)
   }
 }
+
+var WORLD
+function testCreateWorld(){
+  WORLD = new World({
+    X:20,
+    Y:20,
+    reproductionRate: 15./100,
+    mutationRatePerReproduction: 3./100
+  })
+  WORLD.infest(1,1,10)
+  var s=WORLD.species[0]
+  var c=s.creatures[0]
+  var i=100
+  while(i-->0){
+    console.log( WORLD.collectCreatures().length )
+    console.log( WORLD.cellsRegistry.countCells() )
+    console.log( WORLD.cellsRegistry.countTakenGroundTiles() )
+     s.reproduce(c)
+    console.log("----")
+  }
+}
+
+

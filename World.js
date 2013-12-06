@@ -7,11 +7,7 @@ function World(options){
     mutationRatePerReproduction: 5./100
   })
   
-  this.cellSpaceRegistry = []
-  for (var i=0;i<this.X;i++) {
-    this.cellSpaceRegistry[i] = []
-    for (var j=0;j<this.Y;j++) this.cellSpaceRegistry[i][j]=[]
-  }
+  this.cellsRegistry = new CellsRegistry({ X: this.X, Y: this.Y})
 
   this.species = []
   this.cycle=0
@@ -40,15 +36,6 @@ World.prototype.lifecycle = function(){
     if (this.cycle - c.creationCycle >= c.species.maxCells) {
       c.die()
       nbDeadCreatures++;
-      if (c.species.creatures.length == 0) {
-        var index = this.species.indexOf(c.species);
-        if (index < 0) {
-          console.log("ERROR: Species not found!")
-        }else{
-          console.log("A species goes extinct")
-          this.species.splice(c.species, 1)
-        }
-      }
     }
   }
 
@@ -60,14 +47,16 @@ World.prototype.lifecycle = function(){
   for (var i in creatures){
     var c = creatures[i]
     if (canReproduce && Math.random() < this.reproductionRate){
-      var mutation = false;//Math.random() < this.mutationRatePerReproduction
+      var mutation = Math.random() < this.mutationRatePerReproduction
       var species = mutation? c.species.mutate(): c.species
       
       CLOCKS.start('reproduction')
       var creature = species.reproduce(c)
       CLOCKS.pause('reproduction')
       
-      if (creature != null) nbNewCreatures++;
+      if (creature != null) {
+        nbNewCreatures++;
+      }
       else canReproduce = false
     }
     CLOCKS.start('growth')
@@ -86,9 +75,7 @@ World.prototype.lifecycle = function(){
 
 //TODO make the world squared
 World.prototype.freeGroundPos = function(){
-  var excludes = WORLD.collectCreatures()
-
-  var posXY = randomTileInSquare(this.X, excludes)
+  var posXY = randomTileInSquare(this.X, WORLD.cellsRegistry.getGroundExcludedIdx())
 
   if (posXY==null) {
     return null;
@@ -112,8 +99,28 @@ World.prototype.collectCreatures = function(){
   return creatures
 }
 
+World.prototype.removeSpecies = function(species){
+  console.log("A species goes extinct!")
+  var index = this.species.indexOf(species);
+  if (index < 0) {
+    throw "ERROR: Species not found!"
+  }
+  this.species.splice(index, 1)
+}
+
+World.prototype.countCells = function(){
+  var count=0
+  for (var i in this.species){
+    var species = this.species[i]
+    for (var j in species.creatures){
+      count += species.creatures[j].cells.length
+    }
+  }
+  return count
+}
+
 World.prototype.exists_cell = function(coords){
-  return this.cellSpaceRegistry[coords.x][coords.y].indexOf(coords.z) >= 0
+  return this.cellsRegistry.existsXYZ(coords)
 }
 
 World.prototype.countFreeGroundPos = function(){
@@ -137,34 +144,4 @@ World.prototype.findCreatureAtPos = function(pos){
       }      
     }
   }
-}
-
-World.prototype.detectFlyingCreatures = function(){
-  for (var i in this.species){
-    var species = this.species[i]
-    for (var j in species.creatures){
-      var creature = species.creatures[j]
-      if (creature.z>0) return creature
-    }
-  }
-}
-
-World.prototype.detectDuplicateCells = function(){
-  var registry = []
- 
-  for (var i in this.species){
-    var species = this.species[i]
-    if (typeof registry[i] == "undefined") registry[i]=[]
-    for (var j in species.creatures){
-      var creature = species.creatures[j]
-      if (typeof registry[i][j] == "undefined") registry[i][j] = []
-      for (var k in creature.cells){
-        if (registry[i][j].indexOf(k) > -1){
-          console.log("Duplicate found at "+i+","+j+","+k)
-        }
-        registry[i][j].push(k)
-      }
-    }
-  }
-  return registry
 }

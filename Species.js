@@ -33,6 +33,17 @@ Species.prototype.evolve = function(){
   if (this.dna.length < this.maxCells) this.dna.push(new DNA())
 }
 
+Species.prototype.remove = function(creature){
+  var index = this.creatures.indexOf(creature);
+  if (index < 0) throw "ERROR: Creature not found!"
+
+  this.creatures.splice(index, 1);
+
+  if (this.creatures.length == 0) {
+    WORLD.removeSpecies(this)
+  }
+}
+
 Species.prototype.mutate = function(){
   console.log("A species is evolving...")
   var species = new Species({maxCells:this.maxCells,color:randomColor()})
