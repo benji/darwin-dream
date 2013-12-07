@@ -28,12 +28,27 @@ World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerC
 World.prototype.lifecycle = function(){
   LOGGER.info("CYCLE "+this.cycle+" begins")
   
-  // cleanup first
+  // sunshine
+  for (var i in creatures){
+    var c = creatures[i]
+    for (var j in c.cells) c.cells[j].energy = 0
+  }
+  for (var i=0;i<this.X;i++){
+    for (var j=0;j<this.Y;j++){
+      var cells = this.cellsRegistry.getCellsXY({x:i,y:j})
+      for (var k in cells){
+        // each cell takes up half of the energy it receives
+        cells[k].energy = 1./Math.pow(2,k)
+      }
+    }
+  }
+
+  // death
   var creatures = this.collectCreatures()
   var nbDeadCreatures = 0
   for (var i in creatures){
     var c = creatures[i]
-    if (this.cycle - c.creationCycle >= c.species.maxCells) {
+    if (this.cycle - c.creationCycle >= c.species.maxCells || !c.hasEnoughEnergy()) {
       c.die()
       nbDeadCreatures++;
     }

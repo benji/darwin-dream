@@ -1,5 +1,5 @@
 var WORLD, CLOCKS = new Clocks()
-var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 10
 
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
