@@ -4,7 +4,7 @@ var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
 consoleAppender.setLayout( new log4javascript.PatternLayout("%-5p - %m") ); // %d{HH:mm:ss} 
-consoleAppender.setThreshold(log4javascript.Level.ERROR);
+consoleAppender.setThreshold(log4javascript.Level.WARN);
 LOGGER.addAppender(consoleAppender)
 
 window.onload = function() {
@@ -35,7 +35,7 @@ function next(){
 
   CLOCKS.pause("stats")
   var avg = Math.floor( CLOCKS.elapsed("stats")/WORLD.cycle )
-  LOGGER.info(avg+"ms/cycle")
+  LOGGER.warn(avg+"ms/cycle")
   
   if (remaining==0) stop()
 }

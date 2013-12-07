@@ -100,7 +100,7 @@ World.prototype.collectCreatures = function(){
 }
 
 World.prototype.removeSpecies = function(species){
-  LOGGER.warn("A species goes extinct!")
+  LOGGER.info("A species goes extinct!")
   var index = this.species.indexOf(species);
   if (index < 0) {
     throw "ERROR: Species not found!"
