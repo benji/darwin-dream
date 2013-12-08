@@ -1,8 +1,9 @@
 var CAMERA,RENDERER,SCENE
+var WIDTH = 900, HEIGTH = 600
 
 function createScene(){
   RENDERER = new THREE.WebGLRenderer();
-  RENDERER.setSize( 1200, 800 );
+  RENDERER.setSize( WIDTH, HEIGTH );
   document.getElementById("container").appendChild( RENDERER.domElement );
   CAMERA = createCamera()
   
@@ -24,7 +25,7 @@ function createScene(){
 function createCamera(){
   var camera = new THREE.PerspectiveCamera(
     35,             // Field of view
-    800 / 600,      // Aspect ratio
+    WIDTH / HEIGTH,      // Aspect ratio
     0.1,            // Near plane
     10000           // Far plane
   );

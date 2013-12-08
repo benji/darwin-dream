@@ -1,9 +1,11 @@
+var SpeciesIdCounter = 1
 function Species(options){
   LOGGER.info("Creating new species")
   absorb(this,options,{maxCells:1,color:'black'})
   this.dna = []
   this.evolve()
   this.creatures = []
+  this.id = SpeciesIdCounter++
 }
 
 Species.prototype.createCreatures = function(qty){

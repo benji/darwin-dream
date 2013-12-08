@@ -19,12 +19,11 @@ Creature.prototype.grow = function(){
 }
 
 Creature.prototype.hasEnoughEnergy = function(){
-  // each cell needs 1/2 unit of energy to survive
   var totalEnergy = 0
   for (var i in this.cells) {
     totalEnergy += this.cells[i].energy
   }
-  return totalEnergy - this.cells.length*1./3 > 0
+  return totalEnergy - this.cells.length*WORLD.requiredCellEnergy > 0
 }
 
 Creature.prototype.growNewCell = function(c, growthProbas){

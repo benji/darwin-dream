@@ -4,7 +4,8 @@ function World(options){
     Y:100,
     reproductionRadius: 10, // not really a radius
     reproductionRate: 10./100,
-    mutationRatePerReproduction: 5./100
+    mutationRatePerReproduction: 5./100,
+    requiredCellEnergy: 1./4
   })
   
   this.cellsRegistry = new CellsRegistry({ X: this.X, Y: this.Y})

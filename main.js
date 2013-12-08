@@ -1,5 +1,5 @@
 var WORLD, CLOCKS = new Clocks()
-var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 10
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
 
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
@@ -15,8 +15,9 @@ window.onload = function() {
     mutationRatePerReproduction: 3./100
   });
   createScene()
-  WORLD.infest(3,5,10)
+  WORLD.infest(3,5,30)
   render()
+  updateSpeciesSummary()
 }
 
 function next(){
@@ -33,6 +34,8 @@ function next(){
   }
   CLOCKS.status("cycle",'complete cycle')
 
+  updateSpeciesSummary()
+  
   CLOCKS.pause("stats")
   var avg = Math.floor( CLOCKS.elapsed("stats")/WORLD.cycle )
   LOGGER.warn(avg+"ms/cycle")
@@ -48,4 +51,16 @@ function start(){
 function stop(){
   LOGGER.info("Stop")
   clearInterval(runInterval)
+}
+
+function updateSpeciesSummary(){
+  var container = $("#species")
+  container.empty()
+  var sortedSpecies = WORLD.species.slice(0).sort(function(s1,s2){return s2.creatures.length-s1.creatures.length})
+  for (var i in sortedSpecies){
+    var species = sortedSpecies[i]
+    var c = species.color
+    var cssColor = "rgb("+Math.floor(c.r*255)+","+Math.floor(c.g*255)+","+Math.floor(c.b*255)+")"
+    container.append("<li style=\"background-color:"+cssColor+"\">Species "+species.id+" ("+species.creatures.length+")</li>")
+  }
 }

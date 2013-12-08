@@ -16,3 +16,5 @@ button {
   border : 1px solid #777;
   padding: 4px 10px;
 }
+#summary { float:right; width: 300px; }
+#summary  ul { list-style-type:none; }
