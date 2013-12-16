@@ -61,6 +61,6 @@ function updateSpeciesSummary(){
     var species = sortedSpecies[i]
     var c = species.color
     var cssColor = "rgb("+Math.floor(c.r*255)+","+Math.floor(c.g*255)+","+Math.floor(c.b*255)+")"
-    container.append("<li style=\"background-color:"+cssColor+"\">Species "+species.id+" ("+species.creatures.length+")</li>")
+    container.append("<li><div class=\"species-color\" style=\"background-color:"+cssColor+"\">&nbsp;</div><span class=\"species-name\">Species "+species.id+"</span><span class=\"species-creatures\">"+species.creatures.length+"</span></li>")
   }
 }
