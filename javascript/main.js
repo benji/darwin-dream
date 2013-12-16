@@ -64,3 +64,17 @@ function updateSpeciesSummary(){
     container.append("<li><div class=\"species-color\" style=\"background-color:"+cssColor+"\">&nbsp;</div><span class=\"species-name\">Species "+species.id+"</span><span class=\"species-creatures\">"+species.creatures.length+"</span></li>")
   }
 }
+
+function save(){
+  localStorage.setObject("test", WORLD);
+}
+
+function load(){
+  WORLD = localStorage.getObject("test")
+}
+
+
+
+
+
+

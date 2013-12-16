@@ -33,3 +33,8 @@ RULES
 1/2 for the highest cells, then 1/4, 1/8, 1/16 etc.
 A creature needs 1/2 unit of sun to survive
 
+
+TODO:
+- Simulation class
+- decouple rendering and model, remove circular references
+- save/load Simulations to localStorage
