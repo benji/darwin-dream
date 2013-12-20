@@ -1,5 +1,5 @@
 var WORLD, CLOCKS = new Clocks()
-var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 100
 
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
@@ -16,7 +16,7 @@ window.onload = function() {
   });
   createScene()
   WORLD.infest(3,5,30)
-  render()
+  render(WORLD)
   updateSpeciesSummary()
 }
 
@@ -29,7 +29,7 @@ function next(){
   
   if (WORLD.cycle % RENDER_NB_CYCLES == 0 || remaining==0){
     CLOCKS.start("render")
-    render()
+    render(WORLD)
     CLOCKS.status("render","rendering")
   }
   CLOCKS.status("cycle",'complete cycle')
@@ -38,7 +38,7 @@ function next(){
   
   CLOCKS.pause("stats")
   var avg = Math.floor( CLOCKS.elapsed("stats")/WORLD.cycle )
-  LOGGER.warn(avg+"ms/cycle")
+  LOGGER.warn("Cycle "+WORLD.cycle+", "+avg+"ms/cycle")
   
   if (remaining==0) stop()
 }

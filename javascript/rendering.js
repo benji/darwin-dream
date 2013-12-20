@@ -35,8 +35,26 @@ function createCamera(){
   return camera;
 }
 
-function render(){
+function render(world){
+  var threeObjs = []
+  for (var i in world.species){
+    var s = world.species[i]
+    for (var j in s.creatures){
+      var c = s.creatures[j]
+      for (var k in c.cells){
+        var cell = c.cells[k]
+        var threeObj = createCube(cell.x, cell.y, cell.z, s.color)
+        threeObjs.push( threeObj )
+        SCENE.add( threeObj )
+      }
+    }
+  }
+
   RENDERER.render( SCENE, CAMERA )
+
+  for (var i in threeObjs){
+    SCENE.remove( threeObjs[i] )
+  }
 }
 
 function createLine(x1,y1,z1,x2,y2,z2,color){
