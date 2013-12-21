@@ -36,9 +36,12 @@ A creature needs 1/2 unit of sun to survive
 
 
 ### TODO:
-- Simulation class
-- decouple rendering and model, remove circular references
-- save/load Simulations to localStorage
+
+* Instead of creating random colors for new species, try to find a color that is the most discernible from the existing ones.
+
+* Add more environment constraints
+
+* Improve performance in order to operate on a large surface 
 
 ### Implementation details
 
