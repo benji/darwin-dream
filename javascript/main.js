@@ -1,5 +1,5 @@
 var WORLD, CLOCKS = new Clocks()
-var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 50, lastRenderedCycle = -1
 
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
@@ -30,7 +30,7 @@ function next(){
   
   if (WORLD.cycle % RENDER_NB_CYCLES == 0 || remaining==0){
     CLOCKS.start("render")
-    render(WORLD)
+    renderAll()
     CLOCKS.status("render","rendering")
   }
   CLOCKS.status("cycle",'complete cycle')
@@ -42,6 +42,13 @@ function next(){
   LOGGER.warn("Cycle "+WORLD.cycle+", "+avg+"ms/cycle")
   
   if (remaining==0) stop()
+}
+
+function renderAll(){
+  if (lastRenderedCycle != WORLD.cycle){
+    render(WORLD)
+    lastRenderedCycle = WORLD.cycle
+  }
 }
 
 var runInterval, running = false;
@@ -57,6 +64,7 @@ function stop(){
     LOGGER.info("Stop")
     clearInterval(runInterval)
     running = false
+    renderAll()
   }
 }
 
@@ -72,11 +80,11 @@ function updateSpeciesSummary(){
   }
 }
 
-function save(){
+function user_next(){
+  next()
+  renderAll()
 }
 
-function load(){
-}
 
 var LOCALSTORAGE_KEY = "darwin-dream-world-json"
 function save(){
