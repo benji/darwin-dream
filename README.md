@@ -1,10 +1,11 @@
-darwin-dream
-============
+Darwin's Dream
+==============
 
-An attempt to create digital species derived from simple natural selection rules.
-Uses JS/[Three.js](http://threejs.org/)/WebGL.
+An attempt to **create digital species derived from simple natural selection rules**.
 
 Goal: Watch different species emerging and taking over because they are better fit for the environment!
+
+Uses JS/[Three.js](http://threejs.org/)/WebGL.
 
 ### Usage
 
@@ -14,21 +15,21 @@ Goal: Watch different species emerging and taking over because they are better f
 
 ### The Method
 
-* Decrease of the population: aging and death
+* Decrease of the population: Aging and Death
 
-* Increase of the population: reproduction
+* Increase of the population: Reproduction
 
-* Environment: time cycles; produces food every cycle
+* Environment: Time cycles; Produces food every cycle
 
 ### Rules of the environment
 
-1) START: N SPECIES - maxCells=1, 1 cell organisms (everybody is pretty much equal at this stage)
+1) START: N Species, 1 cell organisms (everybody is pretty much equal at this stage)
 
 2) GROWTH of a new cell at each cycle until maxCells is reached
    10% chances? of REPRODUCTION in area nearby (+/- 10 tiles?)
    1% chance of EVOLUTION/MUTATION(s) -> NEW SPECIES with 1 more cell allowed, direction of growth is random
    
-3) NATURAL DEATH after 10 cycles (maxCells=10) 
+3) NATURAL DEATH after 'maxCells' cycles (maxCells=10) 
 
 4) SUN: every tile receive 1 unit of SUN/ENERGY divided as follows:
 1/2 for the highest cells, then 1/4, 1/8, 1/16 etc.
