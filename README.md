@@ -8,7 +8,9 @@ Goal: Watch different species emerging and taking over because they are better f
 
 ### Usage
 
-  It's web based so check out the project and simply open index.html with your favorite browser!
+  It's web based so check out the project and simply open index.html with Chrome or Firefox!
+
+  Note: Internet Explorer is not supported as it doesn't support WebGL yet.
 
 ### The Method
 
@@ -40,9 +42,7 @@ A creature needs 1/2 unit of sun to survive
 
 ### Implementation details
 
-Tree structure:
-
-World - Species - Creature - Cell
+Tree structure: World - Species - Creature - Cell
 
 We now create/remove the all the three.js objects only when a rendering is required.
 It will greatly improve performance when we don't really need frequent redering,
