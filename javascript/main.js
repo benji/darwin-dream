@@ -1,10 +1,10 @@
 var WORLD, CLOCKS = new Clocks()
-var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 50, lastRenderedCycle = -1
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 500, lastRenderedCycle = -1
 
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
 consoleAppender.setLayout( new log4javascript.PatternLayout("%-5p - %m") ); // %d{HH:mm:ss} 
-consoleAppender.setThreshold(log4javascript.Level.INFO);
+consoleAppender.setThreshold(log4javascript.Level.WARN);
 LOGGER.addAppender(consoleAppender)
 
 window.onload = function() {
