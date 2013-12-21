@@ -4,17 +4,17 @@ function Creature(options){
   this.creationCycle = WORLD.cycle
   var cellOpts = {x:this.x,y:this.y,z:this.z}
   LOGGER.debug("Creating new creature: x="+cellOpts.x+" y="+cellOpts.y+" z="+cellOpts.z)
-  cellOpts.creature = this
+  cellOpts.parent = this
   this.cells = [new Cell(cellOpts)]
 }
 
 Creature.prototype.die = function(){
-  this.species.remove(this)
+  this.parent.remove(this)
   for (var i in this.cells) this.cells[i].die()
 }
 
 Creature.prototype.grow = function(){
-  var cell = this.growNewCell(this.cells[this.cells.length-1], this.species.dna[0].probas)
+  var cell = this.growNewCell(this.cells[this.cells.length-1], this.parent.dna[0].probas)
   if (cell!=null) this.cells.push(cell)
 }
 
@@ -27,7 +27,7 @@ Creature.prototype.hasEnoughEnergy = function(){
 }
 
 Creature.prototype.growNewCell = function(c, growthProbas){
-  var option = {creature:this, x:c.x, y:c.y, z:c.z}
+  var option = {parent:this, x:c.x, y:c.y, z:c.z}
 
   var canGrow = [
     c.x < WORLD.X-1 && !WORLD.exists_cell({x:c.x+1,y:c.y,z:c.z}),
@@ -51,7 +51,7 @@ Creature.prototype.growNewCell = function(c, growthProbas){
   else if (canGrow[4] && p<(sumPrevProbas+=growthProbas[4])) option.z+=1
   else if (canGrow[5])                                       option.z-=1
   else {
-    LOGGER.info("ERROR: CELL HAS NO ROOM TO GROW")
+    LOGGER.debug("ERRORCell has no room to grow")
     return null
   }
 

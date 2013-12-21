@@ -38,3 +38,17 @@ TODO:
 - Simulation class
 - decouple rendering and model, remove circular references
 - save/load Simulations to localStorage
+
+Tree structure:
+
+World
+  |
+Species
+  |
+Creature
+  |
+Cell
+
+We now create/remove the all the three.js objects only when a rendering is required.
+It will greatly improve performance when we don't really need frequent redering,
+and thus we will spend most of the CPU time on the evolution algrithm itself.

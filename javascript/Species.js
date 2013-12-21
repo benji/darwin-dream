@@ -15,7 +15,7 @@ Species.prototype.createCreatures = function(qty){
 }
 
 Species.prototype.createCreature = function(opts){
-  opts.species = this
+  opts.parent = this
   var creature = new Creature(opts)
   this.creatures.push( creature )
   return creature;

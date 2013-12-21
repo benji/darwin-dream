@@ -1,10 +1,10 @@
 var WORLD, CLOCKS = new Clocks()
-var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 100
+var PLAY_INTERVAL_MS = 0, RENDER_NB_CYCLES = 1
 
 var LOGGER = log4javascript.getLogger();
 var consoleAppender = new log4javascript.BrowserConsoleAppender();
 consoleAppender.setLayout( new log4javascript.PatternLayout("%-5p - %m") ); // %d{HH:mm:ss} 
-consoleAppender.setThreshold(log4javascript.Level.WARN);
+consoleAppender.setThreshold(log4javascript.Level.INFO);
 LOGGER.addAppender(consoleAppender)
 
 window.onload = function() {
@@ -16,6 +16,7 @@ window.onload = function() {
   });
   createScene()
   WORLD.infest(3,5,30)
+  WORLD.assignColorToSpecies()
   render(WORLD)
   updateSpeciesSummary()
 }
@@ -43,14 +44,20 @@ function next(){
   if (remaining==0) stop()
 }
 
-var runInterval;
+var runInterval, running = false;
 function start(){
-  LOGGER.info("Start")
-  runInterval = setInterval(next, PLAY_INTERVAL_MS);
+  if (!running){
+    running = true
+    LOGGER.info("Start")
+    runInterval = setInterval(next, PLAY_INTERVAL_MS);
+  }
 }
 function stop(){
-  LOGGER.info("Stop")
-  clearInterval(runInterval)
+  if (running){
+    LOGGER.info("Stop")
+    clearInterval(runInterval)
+    running = false
+  }
 }
 
 function updateSpeciesSummary(){
@@ -66,14 +73,49 @@ function updateSpeciesSummary(){
 }
 
 function save(){
-  localStorage.setObject("test", WORLD);
 }
 
 function load(){
-  WORLD = localStorage.getObject("test")
 }
 
+var LOCALSTORAGE_KEY = "darwin-dream-world-json"
+function save(){
+  var json = JSON.stringify(WORLD, function (key, value){
+    if (key == "parent" || key == "cellsRegistry") return undefined;
+    else return value;
+  })
+  localStorage.setItem(LOCALSTORAGE_KEY, json);
+  LOGGER.info("WORLD saved")
+}
 
+function load(){
+  var json = localStorage.getItem(LOCALSTORAGE_KEY)
+  var worldData = JSON.parse(json)
+  WORLD = new World(excludeFromHash(worldData,["species"]))
+
+  for (var i in worldData.species){
+    var sData = worldData.species[i]
+    var s = new Species(excludeFromHash(sData,["creatures"]))
+    WORLD.species.push(s)
+
+    for (var j in sData.creatures){
+      var cData = sData.creatures[j]
+      var c = new Creature(excludeFromHash(cData,["cells"]))
+      c.parent = s
+      s.creatures.push(c)
+
+      for (var k in cData.cells){
+        var cellData = cData.cells[k]
+        var cell = new Cell(cellData)
+        cell.parent = c
+        c.cells.push(cell)
+      }
+    }
+  }
+  WORLD.assignColorToSpecies()
+
+  render(WORLD)
+}
 
 
 

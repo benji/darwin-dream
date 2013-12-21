@@ -15,11 +15,17 @@ function World(options){
 }
 
 World.prototype.infest = function(nbSpecies, nbCreaturesPerSpecies, maxCellsPerCreature){
-  var hue = 0, colorDelta = 1./nbSpecies
   for (var i=0; i<nbSpecies; i++){
-    var species = new Species({maxCells:maxCellsPerCreature, color:getColorFromHue(hue)})
+    var species = new Species({maxCells:maxCellsPerCreature})
     this.species.push( species )
     species.createCreatures( nbCreaturesPerSpecies )
+  }
+}
+
+World.prototype.assignColorToSpecies = function(){
+  var hue = 0, colorDelta = 1./this.species.length
+  for (var i in this.species){
+    this.species[i].color = getColorFromHue(hue)
     hue+=colorDelta
   }
 }
@@ -49,7 +55,7 @@ World.prototype.lifecycle = function(){
   var nbDeadCreatures = 0
   for (var i in creatures){
     var c = creatures[i]
-    if (this.cycle - c.creationCycle >= c.species.maxCells || !c.hasEnoughEnergy()) {
+    if (this.cycle - c.creationCycle >= c.parent.maxCells || !c.hasEnoughEnergy()) {
       c.die()
       nbDeadCreatures++;
     }
@@ -64,7 +70,7 @@ World.prototype.lifecycle = function(){
     var c = creatures[i]
     if (canReproduce && Math.random() < this.reproductionRate){
       var mutation = Math.random() < this.mutationRatePerReproduction
-      var species = mutation? c.species.mutate(): c.species
+      var species = mutation? c.parent.mutate(): c.parent
       
       CLOCKS.start('reproduction')
       var creature = species.reproduce(c)
@@ -156,7 +162,7 @@ World.prototype.findCreatureAtPos = function(pos){
       var creature = species.creatures[j]
       for (var k in creature.cells){
         var cell = creature.cells[k]
-        if (cell.x == pos.x && cell.y == pos.y && cell.z == pos.z) return cell.creature
+        if (cell.x == pos.x && cell.y == pos.y && cell.z == pos.z) return creature
       }      
     }
   }

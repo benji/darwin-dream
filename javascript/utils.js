@@ -1,8 +1,24 @@
 function absorb(o, options, defaults){
-  for (var key in options) o[key]=options[key]
+  for (var key in options) {
+    o[key]=options[key]
+  }
   for (var key in defaults) {
     if (!(key in o)) o[key]=defaults[key]
   }
+}
+
+function exists(v){
+  return typeof v != "undefined" && v != null
+}
+
+function excludeFromHash(hash, excludes){
+  var result = {}
+  for (var key in hash){
+    if (excludes.indexOf(key) == -1){
+      result[key] = hash[key]
+    }
+  }
+  return result
 }
 
 // random integer in [0; maxInt[
