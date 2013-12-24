@@ -55,6 +55,11 @@ Species.prototype.mutate = function(){
   return species
 }
 
+Species.prototype.getDna = function(i){
+  if (i > this.dna.length-1) this.dna.push(new DNA())
+  return this.dna[i]
+}
+
 // probabilities for growing direction:
 // x+1, x-1, y+1, y-1, z+1, z-1
 function DNA(){

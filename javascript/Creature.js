@@ -14,7 +14,8 @@ Creature.prototype.die = function(){
 }
 
 Creature.prototype.grow = function(){
-  var cell = this.growNewCell(this.cells[this.cells.length-1], this.parent.dna[0].probas)
+  var idx = this.cells.length-1
+  var cell = this.growNewCell(this.cells[idx], this.parent.getDna(idx).probas)
   if (cell!=null) this.cells.push(cell)
 }
 
