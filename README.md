@@ -44,6 +44,8 @@ A creature needs 1/2 unit of sun to survive
 
 * Improve performance in order to operate on a large surface 
 
+* Add genealogy tree
+
 ### Implementation details
 
 Tree structure: World - Species - Creature - Cell
