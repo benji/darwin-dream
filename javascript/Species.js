@@ -2,8 +2,7 @@ var SpeciesIdCounter = 1
 function Species(options){
   LOGGER.info("Creating new species")
   absorb(this,options,{maxCells:1,color:'black'})
-  this.dna = []
-  this.evolve()
+  this.dna = [new DNA()]
   this.creatures = []
   this.id = SpeciesIdCounter++
 }
@@ -31,10 +30,6 @@ Species.prototype.reproduce = function(parent){
   }
 }
 
-Species.prototype.evolve = function(){
-  if (this.dna.length < this.maxCells) this.dna.push(new DNA())
-}
-
 Species.prototype.remove = function(creature){
   var index = this.creatures.indexOf(creature);
   if (index < 0) throw "ERROR: Creature not found!"
@@ -50,7 +45,7 @@ Species.prototype.mutate = function(){
   LOGGER.info("A species is evolving...")
   var species = new Species({maxCells:this.maxCells,color:randomColor()})
   species.dna = this.dna.slice(0)
-  species.dna[rand(6)] = new DNA() // the mutation
+  species.dna[rand(species.dna.length-1)] = new DNA() // the mutation
   WORLD.species.push(species)
   return species
 }
