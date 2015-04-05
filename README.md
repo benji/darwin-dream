@@ -8,6 +8,8 @@ An attempt to **create digital species derived from simple natural selection rul
 
 Goal: Watch different species emerging and taking over because they are better fit for the environment!
 
+![](https://raw.github.com/benji/darwins-dream-js/master/screenshot-1.png)
+
 Uses JS/[Three.js](http://threejs.org/)/WebGL.
 
 ### Usage
