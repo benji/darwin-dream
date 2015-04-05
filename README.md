@@ -1,7 +1,7 @@
 Darwin's Dream (JavaScript)
 ==============
 
-<h1>This project has been abbandonned in favor of the C++ version for performance reasons.</h1>
+<h2>This project has been abbandonned in favor of the C++ version for performance reasons.</h2>
 
 An attempt to **create digital species derived from simple natural selection rules**.
 
