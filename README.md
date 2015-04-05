@@ -1,5 +1,7 @@
-Darwin's Dream
+Darwin's Dream (JavaScript)
 ==============
+
+<h1>This project has been abbandonned in favor of the C++ version for performance reasons.</h1>
 
 An attempt to **create digital species derived from simple natural selection rules**.
 
@@ -9,7 +11,7 @@ Uses JS/[Three.js](http://threejs.org/)/WebGL.
 
 ### Usage
 
-  It's web based so check out the project and simply open index.html with Chrome or Firefox!
+  It's web based so check out the project and simply open index.html with Chrome or Firefox.
 
   Note: Internet Explorer is not supported as it doesn't support WebGL yet.
 
