@@ -1,8 +1,6 @@
 Darwin's Dream (JavaScript)
 ==============
 
-[Demo](http://htmlpreview.github.io/?https://github.com/benji/darwins-dream-js/blob/master/index.html)
-
 <b>This project has been abandoned in favor of the C++ version for performance reasons.</b>
 
 An attempt to **create digital species derived from simple natural selection rules**.
