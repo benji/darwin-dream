@@ -1,22 +1,26 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head>
-    <title>Darwin's dream</title>
-    <script src="libs/three.js"></script>
-    <script src="libs/log4javascript.js"></script>
-    <script src="libs/jquery-1.10.2.min.js"></script>
 
-    <script src="javascript/utils.js"></script>
-    <script src="javascript/rendering.js"></script>
-    <script src="javascript/CellsRegistry.js"></script>
-    <script src="javascript/Clock.js"></script>
-    <script src="javascript/Cell.js"></script>
-    <script src="javascript/Creature.js"></script>
-    <script src="javascript/Species.js"></script>
-    <script src="javascript/World.js"></script>
-    <script src="javascript/main.js"></script>
-    <link rel="stylesheet" href="main.css">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Darwin's dream</title>
+  <link rel="stylesheet" href="main.css">
+
+  <script src="libs/three.js"></script>
+  <script src="libs/log4javascript.js"></script>
+  <script src="libs/jquery-1.10.2.min.js"></script>
+
+  <script src="javascript/utils.js"></script>
+  <script src="javascript/rendering.js"></script>
+  <script src="javascript/CellsRegistry.js"></script>
+  <script src="javascript/Clock.js"></script>
+  <script src="javascript/Cell.js"></script>
+  <script src="javascript/Creature.js"></script>
+  <script src="javascript/Species.js"></script>
+  <script src="javascript/World.js"></script>
+  <script src="javascript/main.js"></script>
 </head>
+
 <body>
   <div id="container">
     <div id="header">
@@ -26,12 +30,13 @@
       <button onclick="javascript:save()" style="float:right">Save</button>
       <button onclick="javascript:load()" style="float:right">Load</button>
     </div>
-    
+
     <div id="threeScene"></div>
-    
+
     <div id="summary">
       <ul id="species"></ul>
     </div>
   </div>
 </body>
+
 </html>

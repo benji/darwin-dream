@@ -1,23 +1,44 @@
-body{
-  background:#eaeaea;
+body {
+  background: #eaeaea;
 }
+
 #container {
-  background:#fff;
-  margin:0 auto;
+  background: #fff;
+  margin: 0 auto;
   width: 1200px;
-  padding:10px;
+  padding: 10px;
 }
+
 #header {
-  margin-bottom:10px;
+  margin-bottom: 10px;
 }
-#threeScene {
-}
+
 button {
-  border : 1px solid #777;
+  border: 1px solid #777;
   padding: 4px 10px;
 }
-#summary { float:right; width: 300px; }
-#summary  ul { list-style-type:none; }
-#summary  ul li { padding:2px; margin-bottom:1px; }
-#summary  ul li div.species-color { width: .5em; height:1.2em ; float:left; margin-right: 5px; }
-#summary  ul li span.species-creatures { float:right; }
+
+#summary {
+  float: right;
+  width: 300px;
+}
+
+#summary ul {
+  list-style-type: none;
+}
+
+#summary ul li {
+  padding: 2px;
+  margin-bottom: 1px;
+}
+
+#summary ul li div.species-color {
+  width: .5em;
+  height: 1.2em;
+  float: left;
+  margin-right: 5px;
+}
+
+#summary ul li span.species-creatures {
+  float: right;
+}
